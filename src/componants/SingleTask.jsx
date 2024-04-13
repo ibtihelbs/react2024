@@ -1,35 +1,40 @@
 import React from "react";
 
-const SingleTask = ({ singleTask, taskIndex, setTasks, Tasks }) => {
-  const { task, done } = singleTask;
-  const handlechange = () => {
-    const newTasks = [...Tasks];
-    newTasks[taskIndex].done = !newTasks[taskIndex].done;
-    setTasks(newTasks);
-  };
-  const deleteFn = () => {
-    let newTasks = [...Tasks];
-    newTasks = newTasks.filter((v) => v !== newTasks[taskIndex]);
-    setTasks(newTasks);
-  };
-  return (
-    <div className="single-task flex between">
-      <div className="flex">
-        <form className="checked">
-          <input
-            type="checkbox"
-            className="state"
-            checked={done}
-            onChange={handlechange}
-          />
-        </form>
-        <p className={`${done ? "lined" : "not-lined"}`}> {task} </p>
+class SingleTask extends React.Component {
+  task = this.props.singleTask.task;
+  done = this.props.singleTask.done;
+  taskIndex = this.props.taskIndex;
+  componentDidUpdate() {
+    console.log(this.done);
+  }
+  render() {
+    return (
+      <div className="single-task flex between">
+        <div
+          className="flex"
+          onClick={() => {
+            this.props.doneFn(this.taskIndex);
+          }}
+        >
+          <form className="checked">
+            <input type="checkbox" className="state" />
+          </form>
+          <p className={`${this.done ? "lined" : "not-lined"}`}>
+            {" "}
+            {this.task}{" "}
+          </p>
+        </div>
+        <button
+          className="delete"
+          onClick={() => {
+            this.props.deleteFn(this.taskIndex);
+          }}
+        >
+          <img src="./images/icon-cross.svg" alt="icon-cross" />
+        </button>
       </div>
-      <button className="delete" onClick={deleteFn}>
-        <img src="./images/icon-cross.svg" alt="icon-cross" />
-      </button>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default SingleTask;

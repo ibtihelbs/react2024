@@ -1,26 +1,32 @@
-import React, { useState } from "react";
+import { Component } from "react";
 
-const Form = ({ setTasks, Tasks }) => {
-  const [input, setInput] = useState("");
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setInput("");
-    setTasks([...Tasks, { task: input, done: false }]);
+class Form extends Component {
+  state = {
+    input: "",
   };
-  return (
-    <form id="todo-form" className="flex" onSubmit={handleSubmit}>
-      <span></span>
-      <input
-        type="text"
-        id="add"
-        placeholder="Create new todo ...."
-        onChange={(e) => {
-          setInput(e.target.value);
-        }}
-        value={input}
-      />
-    </form>
-  );
-};
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.addTask(this.state.input);
+    this.state.input = "";
+  };
+
+  render() {
+    return (
+      <form id="todo-form" className="flex" onSubmit={this.handleSubmit}>
+        <span></span>
+        <input
+          type="text"
+          id="add"
+          placeholder="Create new todo ...."
+          onChange={(e) => {
+            this.setState({ input: e.target.value });
+          }}
+          value={this.state.input}
+        />
+      </form>
+    );
+  }
+}
 
 export default Form;
