@@ -8,21 +8,39 @@ class App extends Component {
   state = {
     theme: false,
     Tasks: [],
+    arr: [],
   };
-
+  componentDidUpdate() {
+    console.log(this.state.Tasks, this.state.arr);
+  }
   handleTheme = () => {
     this.setState(() => {
       return { theme: !this.state.theme };
     });
   };
+  updateDone = (updatedArr) => {
+    this.setState(() => {
+      return { Tasks: updatedArr, arr: updatedArr };
+    });
+  };
   updateTasks = (updatedArr) => {
     this.setState(() => {
-      return { Tasks: updatedArr };
+      return { arr: updatedArr };
     });
   };
   addTask = (input) => {
     this.setState((prev) => {
-      return { Tasks: [...prev.Tasks, { task: input, done: false }] };
+      return {
+        Tasks: [...prev.Tasks, { task: input, done: false }],
+        arr: [...prev.Tasks, { task: input, done: false }],
+      };
+    });
+  };
+  deleteFn = (index) => {
+    console.log(index);
+    const deleteArr = [...this.state.Tasks].filter((v, i) => index !== i);
+    this.setState(() => {
+      return { Tasks: deleteArr, arr: deleteArr };
     });
   };
   render() {
@@ -34,7 +52,10 @@ class App extends Component {
             <Form addTask={this.addTask} />
             <TasksManager
               updateTasks={this.updateTasks}
+              arr={this.state.arr}
               Tasks={this.state.Tasks}
+              deleteFn={this.deleteFn}
+              updateDone={this.updateDone}
             />
           </main>
         </div>

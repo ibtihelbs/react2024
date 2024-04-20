@@ -2,11 +2,8 @@ import React from "react";
 
 class SingleTask extends React.Component {
   task = this.props.singleTask.task;
-  done = this.props.singleTask.done;
   taskIndex = this.props.taskIndex;
-  componentDidUpdate() {
-    console.log(this.done);
-  }
+
   render() {
     return (
       <div className="single-task flex between">
@@ -17,9 +14,16 @@ class SingleTask extends React.Component {
           }}
         >
           <form className="checked">
-            <input type="checkbox" className="state" />
+            <input
+              type="checkbox"
+              className="state"
+              readOnly
+              checked={this.props.singleTask.done}
+            />
           </form>
-          <p className={`${this.done ? "lined" : "not-lined"}`}>
+          <p
+            className={`${this.props.singleTask.done ? "lined" : "not-lined"}`}
+          >
             {" "}
             {this.task}{" "}
           </p>
